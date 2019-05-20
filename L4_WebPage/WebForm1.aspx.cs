@@ -133,14 +133,14 @@ namespace L4_WebPage
 
         }
 
-        public void SortResidents(List<ResidentsList> residentsLists)
+        public List<Residents> SortResidents(List<Residents> residentsLists)
         {
-            residentsLists.ForEach(r => r.ListOfResidents.Sort());
+            return residentsLists.OrderBy(r => r.FlatOwner).ToList();
         }
-
-        public void SortTerritoryCleaning(List<TerritoryCleaning> territoryCleaning)
+    
+        public List<TerritoryCleaning> SortTerritoryCleaning(List<TerritoryCleaning> territoryCleaning)
         {
-            territoryCleaning.Sort();
+           return territoryCleaning.OrderBy(t => t.PriceForSquare).ToList();
         }
 
         public void VisibleObjects()
@@ -288,19 +288,6 @@ namespace L4_WebPage
                         }
                     });
                 }));
-                //foreach (var residentsList in residentsLists)
-                //{
-                //    for (var i = 0; i < residentsList.ListOfResidents.Count; i++)
-                //    {
-                //        foreach (var territoryCleaning in territoryCleaningList)
-                //        {
-                //            if (CalculateMoneySpent(residentsList.ListOfResidents[i], territoryCleaning) < average)
-                //            {
-                //                residentsList.ListOfResidents.Remove(residentsList.ListOfResidents[i]);
-                //            }
-                //        }
-                //    }
-                //}
             }
 
             catch (Exception e)
