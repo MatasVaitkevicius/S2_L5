@@ -133,6 +133,11 @@ namespace L4_WebPage
 
         }
 
+        public bool CheckForResidents(List<Residents> residentsLists)
+        {
+            return residentsLists.Any();
+        }
+
         public List<Residents> SortResidents(List<Residents> residentsLists)
         {
             return residentsLists.OrderBy(r => r.FlatOwner).ToList();
@@ -141,6 +146,11 @@ namespace L4_WebPage
         public List<TerritoryCleaning> SortTerritoryCleaning(List<TerritoryCleaning> territoryCleaning)
         {
            return territoryCleaning.OrderBy(t => t.PriceForSquare).ToList();
+        }
+
+        public List<Residents> GetDistinctResidents(List<Residents> residentsLists)
+        {
+            return residentsLists.Distinct().ToList();
         }
 
         public void VisibleObjects()
@@ -246,7 +256,7 @@ namespace L4_WebPage
             var count = 0;
             try
             {
-                if (residentsLists.Count != 0)
+                if (residentsLists.Any())
                 {
                     residentsLists.ForEach(lr => lr.ListOfResidents.ForEach(r => territoryCleaningList.ForEach(t =>
                     {
@@ -309,6 +319,7 @@ namespace L4_WebPage
             List<TerritoryCleaning> territoryCleaningList, List<ResidentsList> residentsLists)
         {
             var filteredList = new List<ResidentsList>();
+
             try
             {
                 return (from street in residentsLists
@@ -373,14 +384,14 @@ namespace L4_WebPage
                     case 1:
                         writer.WriteLine("Sudarytas naujas sąrašas");
                         writer.WriteLine();
-                        if (residentsList.Count != 0)
+                        if (residentsList.Any())
                         {
                             residentsList.ForEach(lr =>
                             {
                                 writer.WriteLine("{0, 15}", "Gatves Pavadinimas");
                                 writer.WriteLine(lr.ListStreetName);
                                 writer.WriteLine();
-                                if (lr.ListOfResidents.Count != 0)
+                                if (lr.ListOfResidents.Any())
                                 {
                                     writer.WriteLine(linesSeparatorResults);
                                     writer.WriteLine("| {0, 20} | {1,20} |", "Savininko Pavarde",
@@ -409,14 +420,14 @@ namespace L4_WebPage
                     case 2:
                         writer.WriteLine("Pašalintas naujas sąrašas");
                         writer.WriteLine();
-                        if (residentsList.Count != 0)
+                        if (residentsList.Any())
                         {
                             residentsList.ForEach(lr =>
                             {
                                 writer.WriteLine("{0, 15}", "Gatves Pavadinimas");
                                 writer.WriteLine(lr.ListStreetName);
                                 writer.WriteLine();
-                                if (lr.ListOfResidents.Count != 0)
+                                if (lr.ListOfResidents.Any())
                                 {
                                     writer.WriteLine(linesSeparatorResults);
                                     writer.WriteLine("| {0, 20} | {1,20} |", "Savininko Pavarde",
@@ -550,11 +561,6 @@ namespace L4_WebPage
             cell.Font.Size = 20;
             cell.Height = 30;
             cell.Width = 30;
-        }
-
-        public bool CheckForResidents(List<Residents> residentsLists)
-        {
-            return residentsLists.Count != 0;
         }
 
         void ResidentsTableResult(List<ResidentsList> residentsLists, double chosenAmountOfMoney, int index,
